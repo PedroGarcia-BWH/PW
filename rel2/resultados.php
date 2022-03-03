@@ -4,7 +4,7 @@
     <?php 
         $enlace = mysqli_connect("127.0.0.1","cursophp","", "lindavista");
 
-        $consulta = mysqli_query($enlace, "select * from noticias");
+        $consulta = mysqli_query($enlace, "select * from votos");
         echo "<table border =2 >";
         echo "<th>";
         echo "Respuesta";
@@ -18,17 +18,24 @@
         echo "<tr>";
         foreach($consulta as $filas)
         {
+            $total = $filas["votos1"] + $filas["votos2"];
+            $porcentaje1 = $filas["votos1"] / $total *100;
+            $porcentaje2 = $filas["votos2"] / $total *100;
+            echo "  <th> ";
+            echo "A favor";
             echo "<th>";
-            echo $filas["titulo"];
+            echo $filas["votos1"];
             echo "<th>";
-            echo $filas["texto"];
+            echo "$porcentaje1%";
             echo "<th>";
-            echo $filas["categoria"];
-            echo "<th>";
-            echo $filas["fecha"];
-            echo "<th>";
-            echo $filas["imagen"];
             echo "<tr>";
+            echo "  <th> ";
+            echo "En contra";
+            echo "  <th> ";
+            echo $filas["votos2"];
+            echo "<th>";
+            echo "$porcentaje2 %";
+            echo "<th>";
         }
         
         //echo "<tr>";
