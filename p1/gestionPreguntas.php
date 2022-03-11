@@ -26,11 +26,34 @@
             {
                 $fila = mysqli_fetch_array ($consulta);
                 echo "<br>";
-                $dato = $fila["nombre_asig"];
-                echo "<input name='seleccion' type='radio' value = $dato checked= 'checked' />$dato";
+                $asig = $fila["nombre_asig"];
+                $id = $fila["id_asig"];
+                echo "<input name='seleccion' type='radio' value = $id />$asig";
             }
             echo "<br>";
             echo "<input type='submit' value= 'Aceptar'>";
+
+            if($_POST){
+                $id_asig = $_POST["seleccion"];
+                $consulta = mysqli_query($enlace, "select * from tema where id_asignatura = $id_asig ");
+                
+                echo "<br /> Seleccione el tema: <br />";
+
+                $nfilas = mysqli_num_rows ($consulta);
+                echo "<form method='post'>";
+                for ($i=0; $i<$nfilas; $i++)
+                {
+                    $fila = mysqli_fetch_array ($consulta);
+                    echo "<br>";
+                    $asig = $fila["nombre_tema"];
+                    $id = $fila["id_tema"];
+                    echo "<input name='tema' type='radio' value = $id />$asig";
+                }
+                echo "<br>";
+                echo "<input type='submit' value= 'Aceptar'>";
+
+
+            }
 
             mysqli_close ($enlace);
         ?>
