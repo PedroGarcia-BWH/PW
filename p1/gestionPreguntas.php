@@ -51,8 +51,6 @@
                 }
                 echo "<br>";
                 echo "<input type='submit' value= 'Aceptar'>";
-
-
             }
 
             mysqli_close ($enlace);
