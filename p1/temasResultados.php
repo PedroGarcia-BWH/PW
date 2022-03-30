@@ -1,6 +1,6 @@
 <html>
 <head>
-        <title>Resultados de examenes</title>
+        <title>Menu profesorado</title>
         <style type="text/css">
             *{
                 font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -79,47 +79,31 @@
             th, tr, td{
                 border: 2px solid black;
             }
-            .textbox{
-                width:50%;
-            }
         </style>
     </head>
-
+<body>
     <?php
+     if($_POST){
         $enlace = mysqli_connect("127.0.0.1","root","", "bduca");
-        $consula = mqli_query("");
-        $nfilas = mysqli_num_rows ($consulta);
+        $id_asig = $_POST["seleccion"];
+        $consulta = mysqli_query($enlace, "select * from tema where id_asignatura = $id_asig ");
+        
+        echo "<br /> Seleccione el tema para ver los Resultados: <br />";
 
-        echo "<table>";
-        $suspensos = 0;
-        $aprobados = 0;
-        $notables = 0;
-        $sobresalientes = 0;
-        $media = 0;
+        $nfilas = mysqli_num_rows ($consulta);
+        echo "<form action = 'gestionResultados.php'  method='post'>";
         for ($i=0; $i<$nfilas; $i++)
         {
-                $fila = mysqli_fetch_array ($consulta);
-                //aqui se saca por pantalla toda la informacion
-                if ($nota < 5) $suspensos++;
-                if($nota >= 5) $aprobados++;
-                if($nota >=7) $notables++;
-                if($nota >= 9) $sobresalientes++;
-                $media += $nota;
-                echo "  <th> $aux </th>";
+            $fila = mysqli_fetch_array ($consulta);
+            echo "<br>";
+            $asig = $fila["nombre_tema"];
+            $id = $fila["id_tema"];
+            echo "<input name='tema' type='radio' value = $id />$asig";
         }
-        echo "<tr>";        
-        echo "</table>";
-        $media = $media / $nfilas;
-        echo "<br> Número de suspensos = $suspensos <br>";
-        echo "<br> Número de aprobados = $aprobados <br>";
-        echo "<br> Número de notables = $notables <br>";
-        echo "<br> Número de sobresalientes = $sobresalientes <br>";
-        echo "<br> Media de la clase = $media <br>";
-
-        mysqli_close();
-
+        echo "<br>";
+        echo "<input type='submit' value= 'Aceptar'>";
+        echo "<form>";
+        }
     ?>
-<html>
-
-
-
+</body>
+</html>
