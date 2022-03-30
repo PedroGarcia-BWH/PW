@@ -95,7 +95,7 @@
         <form>
 
         <?php
-        $tema = $_POST["tema"];
+        //$tema = $_POST["tema"];
         $enlace = mysqli_connect("127.0.0.1","root","", "bduca");
 
         
@@ -120,7 +120,7 @@
                 if(isset($_POST['correcta']))
                 {
                     $pregunta= $_POST['pregunta'];$respuesta1 =$_POST["respuesta1"];$respuesta2 =$_POST["respuesta2"];$respuesta3 =$_POST["respuesta3"];$respuesta4 =$_POST["respuesta4"];$correcta=$_POST["correcta"];
-                    $nombre = mysqli_query($enlace, "insert into bateriapreguntas (id_tema, pregunta, opcion1, opcion2, opcion3, opcion4,correcta) values ($tema,$pregunta,$respuesta1,$respuesta2,$respuesta3,$respuesta4,$correcta)"); //mirar esto
+                    $nombre = mysqli_query($enlace, "insert into bateriapreguntas (id_tema, pregunta, opcion1, opcion2, opcion3, opcion4,correcta) values ('".$tema."','".$pregunta."'.,'".$respuesta1."','".$respuesta2."','".$respuesta3."','".$respuesta4."','".$correcta."')"); //mirar esto
                 }
                        
             }
