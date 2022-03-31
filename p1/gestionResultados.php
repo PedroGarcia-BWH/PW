@@ -84,13 +84,29 @@
             }
         </style>
     </head>
+    <h1> RESULTADOS</h1>
 
     <?php
         $enlace = mysqli_connect("127.0.0.1","root","", "bduca");
-        $consula = mqli_query("");
+        $tema = $_POST["tema"];
+        //$tema = 1;
+        $consulta = mysqli_query($enlace,"Select * from examen where id_tema = $tema");
         $nfilas = mysqli_num_rows ($consulta);
+        $hoy = getdate();
+        $date = $hoy['year']."-".$hoy['mon'].'-'.$hoy['mday'];
 
         echo "<table>";
+
+        echo "<table border =2 >";
+        echo "<th>";
+        echo "Alumno";
+        echo "  <th> ";
+        echo "Fecha de realización";
+        echo "  <th> ";
+        echo"Calificación";
+        //echo "  <th> ";
+        echo "<tr>";
+        echo " <th>";
         $suspensos = 0;
         $aprobados = 0;
         $notables = 0;
@@ -99,24 +115,36 @@
         for ($i=0; $i<$nfilas; $i++)
         {
                 $fila = mysqli_fetch_array ($consulta);
-                //aqui se saca por pantalla toda la informacion
-                if ($nota < 5) $suspensos++;
-                if($nota >= 5) $aprobados++;
-                if($nota >=7) $notables++;
-                if($nota >= 9) $sobresalientes++;
-                $media += $nota;
-                echo "  <th> $aux </th>";
+                if($date > $fila['fecha'])
+                {
+                    $ids = mysqli_query($enlace,"Select id_usuario from alumno where id_alumno =".$fila['id_alumno']);
+                    $id =  mysqli_fetch_array ($ids);
+                    $nombres = mysqli_query($enlace,"Select nombre from usuario where id_usuario =".$id['id_usuario']);
+                    $nombre = mysqli_fetch_array ($nombres);
+                    echo $nombre['nombre'];echo " <th>";
+                    echo $fila['fecha'];echo "<th>";
+                    echo $fila['calificacion']; echo "<th>";
+                    //aqui se saca por pantalla toda la informacion
+                    if ($fila['calificacion'] < 5) $suspensos++;
+                    if($fila['calificacion'] >= 5) $aprobados++;
+                    if($fila['calificacion'] >=7) $notables++;
+                    if($fila['calificacion'] >= 9) $sobresalientes++;
+                    $media += $fila['calificacion'];
+                    echo "<tr>";
+                }              
         }
         echo "<tr>";        
         echo "</table>";
-        $media = $media / $nfilas;
-        echo "<br> Número de suspensos = $suspensos <br>";
+        if($nfilas != 0){
+            $media = $media / $nfilas;
+        }
+         echo "<br> Número de suspensos = $suspensos <br>";
         echo "<br> Número de aprobados = $aprobados <br>";
         echo "<br> Número de notables = $notables <br>";
         echo "<br> Número de sobresalientes = $sobresalientes <br>";
         echo "<br> Media de la clase = $media <br>";
 
-        mysqli_close();
+       mysqli_close($enlace);
 
     ?>
 <html>

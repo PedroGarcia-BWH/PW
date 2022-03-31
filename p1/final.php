@@ -79,40 +79,15 @@
             th, tr, td{
                 border: 2px solid black;
             }
+            .textbox{
+                width:50%;
+            }
         </style>
     </head>
-<body>
-    <?php
-     if($_POST){
-        $enlace = mysqli_connect("127.0.0.1","root","", "bduca");
-        if (isset($_POST["seleccion"]))
-        {
-            $id_asig = $_POST["seleccion"];
-            $consulta = mysqli_query($enlace, "select * from tema where id_asignatura = $id_asig ");
-            
-            echo "<br /> Seleccione el tema: <br />";
 
-            $nfilas = mysqli_num_rows ($consulta);
-            echo "<form   method='post'>";
-            for ($i=0; $i<$nfilas; $i++)
-            {
-                $fila = mysqli_fetch_array ($consulta);
-                echo "<br>";
-                $asig = $fila["nombre_tema"];
-                $id = $fila["id_tema"];
-                echo "<input name='tema' type='radio' value = $id />$asig";
-            }
-            echo "<br>";
-            echo "<input type='submit' value= 'Aceptar'>";
-            echo "<form>";
-        }
-        if(isset($_POST['tema'])){
-            $ok = setcookie('tema',$_POST['tema']);
-            
-            header('Location: gestionPreguntas.php');
-        }
-        }
+    ACCIÓN REALIZADA CON ÉXITO, PULSE EN CONTINUAR PARA VOLVER AL MENU PRINCIPAL
+    <form action = profesorado.php method = 'get'>
 
-    ?>
-</body>
-</html>
+    <input type='submit' value= 'Continuar'>
+
+    <form>
